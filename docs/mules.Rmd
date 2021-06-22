@@ -1,13 +1,16 @@
 ---
-title: "ImageJ mules"
+title: "mules - MUltiple LEaf Separation"
 author: "Christian Bowman"
 output:
   pdf_document: default
 ---
 
 \section{mules}
-MUltiple LEaf Separation\newline
-Quick and easy ImageJ macro for distinguishing multiple leaves in one image and finding the LAR of each leaf. \newline
+Multiple leaf separation\newline
+
+\subsection{Description:}
+Quick and easy ImageJ macro for analyzing images with multiple leaves and finding the leaf aspect ratio (LAR) of each leaf. \newline
+Requires the "Morphology" and "BioVoxxel" plugins to be loaded\newline
 
 \textbf{As with all image analysis projects, be sure to have a backup of your original images before starting!!}
 
@@ -16,54 +19,59 @@ Quick and easy ImageJ macro for distinguishing multiple leaves in one image and 
 \begin{enumerate}
   \item Download mules.ijm
   \item Open ImageJ/ FIJI
+  \item \underline{Prior to using mules, be sure to have installed the "Morphology" and "BioVoxxel" plugins!} \newline
+  (see "Updating ImageJ plugins") If you've already done that, please skip this step.
   \item Navigate to Plugins > Macros > Edit... 
   
       \begin{minipage}[t]{\linewidth}   %https://tex.stackexchange.com/questions/46230/whats-the-best-way-to-include-graphics-in-an-enumerated-list
         \raggedright
-        \includegraphics[width=.8\linewidth]{/home/cb/bioprogs/projects/fieldDIA/docs/demo_imgs/mules-01.png}%
+        \includegraphics[width=.8\linewidth]{/home/cb/gitrekt/itwasme-DIA/mules/docs/demo_imgs/mules-01.png}%
         \medskip
       \end{minipage}
+
+  \pagebreak
       
   \item Open the mules.ijm file (most likely in your /Downloads folder) and a box containing the macro will appear
   
       \begin{minipage}[t]{\linewidth}   %https://tex.stackexchange.com/questions/46230/whats-the-best-way-to-include-graphics-in-an-enumerated-list
         \raggedright
-        \includegraphics[width=.8\linewidth]{/home/cb/bioprogs/projects/fieldDIA/docs/demo_imgs/mules-02.png}%
+        \includegraphics[width=.8\linewidth]{/home/cb/gitrekt/itwasme-DIA/mules/docs/demo_imgs/mules-02.png}%
         \medskip
       \end{minipage}
   
   \item \underline{Do NOT open any images}- this macro works through the given folder and does not need a starting image. You should only have the macro window open at this time.
   
-  \pagebreak
   
-  \item Click "Run" on the box with the mules.ijm file and select the folder containing the images you want processed as well as where you would like the outputs to go.
+  \item Click "Run" on the box with the mules.ijm file and select the folder containing the images you want processed as well as where you would like the outputs to go. \newline
+  \underline{Be sure to specify what formats your images are in!!}
   
         \begin{minipage}[t]{\linewidth}   %https://tex.stackexchange.com/questions/46230/whats-the-best-way-to-include-graphics-in-an-enumerated-list
         \raggedright
-        \includegraphics[width=.8\linewidth]{/home/cb/bioprogs/projects/fieldDIA/docs/demo_imgs/mules-03.png}%
+        \includegraphics[width=.8\linewidth]{/home/cb/gitrekt/itwasme-DIA/mules/docs/demo_imgs/mules-03.png}%
         \medskip
         \end{minipage}
         \begin{minipage}[t]{\linewidth}  
         \raggedright
-        \includegraphics[width=.8\linewidth]{/home/cb/bioprogs/projects/fieldDIA/docs/demo_imgs/mules-04.png}%
+        \includegraphics[width=.8\linewidth]{/home/cb/gitrekt/itwasme-DIA/mules/docs/demo_imgs/mules-04.png}%
         \medskip
         \end{minipage}
+
+\pagebreak
       
   \item You should see the screen flash a lot as the images gets processed. Your original image will close and a few output boxes will remain.
   
         \begin{minipage}[t]{\linewidth}   %https://tex.stackexchange.com/questions/46230/whats-the-best-way-to-include-graphics-in-an-enumerated-list
         \raggedright
-        \includegraphics[width=.8\linewidth]{/home/cb/bioprogs/projects/fieldDIA/docs/demo_imgs/mules-05.png}%
+        \includegraphics[width=.8\linewidth]{/home/cb/gitrekt/itwasme-DIA/mules/docs/demo_imgs/mules-05.png}%
         \medskip
       \end{minipage}
   
-  \pagebreak
   
   \item Check your folder containing the original image. You should see several new files that are split from the original.
   
         \begin{minipage}[t]{\linewidth}   %https://tex.stackexchange.com/questions/46230/whats-the-best-way-to-include-graphics-in-an-enumerated-list
         \raggedright
-        \includegraphics[width=.8\linewidth]{/home/cb/bioprogs/projects/fieldDIA/docs/demo_imgs/mules-06.png}%
+        \includegraphics[width=.8\linewidth]{/home/cb/gitrekt/itwasme-DIA/mules/docs/demo_imgs/mules-06.png}%
         \medskip
       \end{minipage}
 
@@ -71,11 +79,11 @@ Quick and easy ImageJ macro for distinguishing multiple leaves in one image and 
 
 \subsection{Output:}
 
-The \underline{".csv" file} will contain the coordinates and length of Feret's diameter (FeretX/Y & Feret) and breadth (BrdthX/Y & Breadth).\newline
+The \underline{".csv" file} contains the coordinates and length of Feret's diameter (FeretX/Y & Feret) and breadth (BrdthX/Y & Breadth). These lines will have "null" in the "label" column.\newline
   
-The file retaining the {"<original name>.png"} will have a drawing to illustrate what was detected from the particle analysis, with leaf numbers corresponding to the item number in the \underline{".csv" file}.\newline
+The file retaining the {"\<original name\>.png"} will have a drawing to illustrate what was detected from the particle analysis, with leaf numbers corresponding to the item number in the \underline{".csv" file}.\newline
   
-Files ending with \underline{"_no#.png"} will be individual leaf images. These numbered images will match with whatever leaf number is shown in the drawing image.\newline
+Files ending with "\<image\>_no#.png" will be individual leaf images. These numbered images will match with whatever leaf number is shown in the drawing image (and in the ".csv" file as well).\newline
 
 
 NOTE: Individual leaf images are cropped pretty close by the program, but there shouldn't be any loss of total leaf area per image.

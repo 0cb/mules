@@ -1,29 +1,33 @@
-/*
-*=									   =*
-*   Filename:	    mules.ijm
-*   Version:	    2.0
-*=									   =*
-*   Description:    Multiple Leaf Separation (mules)
-*		    > separate & binarize multiple leaves from a single image
-*		    > calculate Feret's diameter & breadth for leaf aspect ratio (LAR)
-*   
-*   Usage:	    Must be loaded & run through ImageJ frontend
-*
-*=  Author:	    0cb - Christian Bowman				   =*
-*   Creation:	    2021-03-25
-*   Updated:	    
-*
-*   Project:	    "itwasme-DIA"; Digital image analysis
-*=									   =*
+/*  Multiple Leaf Shapes (mules)
+    
+    ImageJ macro used to separate & calculate the leaf aspect ratio (LAR)
+    for multiple leaves in multple images.
+    Workflow includes separating & binarizing leaves
+
+    Filename:	mules.ijm
+    Version:	0.3.0
+
+    Author:	0cb - Christian Bowman
+    Creation:	2021-03-25
+    Updated:	2021-06-21 15:20
+    Project:	"itwasme-DIA"; Digital image analysis
+
+    Usage: Must be run through IJ GUI
+    0. For analyzing images with multiple plant accessions,
+	please use "imgSplit" prior to running "mules"
+    1. Open ImageJ
+    2. Plugins > Macros > Edit...
+    3. Run (WITHOUT any images open)
+    ** Make sure to backup your images prior to running mules.ijm!
+    4. Select image input/ output directories and what format the images are in
+    5. After pressing "OK", the screen will flash as IJ processes the images
 */
 
 
-//multiple leaf separation and LAR macro
-//must run through IJ GUI!!
-
-
 /* #--------------- Dependencies ---------------#
- * Plugins: Morphology (Particles8), BioVoxxel(Watershed Irregular Features)
+ * ImageJ Plugins: 
+ * Morphology (Particles8)
+ * BioVoxxel(Watershed Irregular Features)
  *
  */
 
@@ -58,7 +62,7 @@ function processFile(input, output, file) {
 	dotIndex = indexOf(title, ".");
 	basename = substring(title, 0, dotIndex);
 
-//#--------------- img processing ---------------#
+//#--------------- image processing ---------------#
 
 	run("Gaussian Blur...", "sigma=4");
 	run("Make Binary");
@@ -71,7 +75,9 @@ function processFile(input, output, file) {
 	//run("Auto Threshold", "method=Huang");
 
 	
-// particle analysis and ROI splitting
+//#--------------- particle analysis and ROI splitting ---------------#
+
+
 	run("Analyze Particles...", "size=10000-Infinity circularity=0.40-1.00 show=Outlines display exclude clear summarize add");
 	
 	selectWindow(title);
