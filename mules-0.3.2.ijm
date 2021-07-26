@@ -5,7 +5,7 @@
     Workflow includes separating & binarizing leaves
 
     Filename:	mules.ijm
-    Version:	0.3.1b
+    Version:	0.3.2
 
     Author:	0cb - Christian Bowman
     Creation:	2021-03-25
