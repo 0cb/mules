@@ -35,7 +35,7 @@
  * added    2021-07-04	dependencies check
  * changed  2021-07-05	how single vs multiple leaves are handled during the LAR measurement step
  * added    2021-07-05	cleaned up step to eliminate background noise in 'single leaf' images
- * fixed    2021-08-04	small leavers were not picked up; reduced surface area requirement for detection 
+ * fixed    2021-08-04	small leaves were not picked up; reduced surface area requirement for detection 
  * fixed    2021-08-04	no measurements in output when "Measurements" or "Both" selected
  * fixed    2021-08-04	irregular watershed was not being applied to images containing multiple leaves
  *
@@ -204,7 +204,7 @@ function processLAR(input, output, file) {
 	run("Clear Results");    //remove default measurements
 	selectWindow(title);
 	    
-	run("Particles8 ", "white label morphology show=Particles minimum=0 maximum=9999999 display redirect=None");
+	run("Particles8 ", "white label morphology show=Particles filter minimum=5000 maximum=9999999 display redirect=None");
     
     //close();
         
