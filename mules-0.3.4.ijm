@@ -39,6 +39,7 @@
  * fixed    2021-08-04	no measurements in output when "Measurements" or "Both" selected
  * fixed    2021-08-04	irregular watershed was not being applied to images containing multiple leaves
  * fixed    2021-08-06	full image for detected leaves came out too dim to use
+ * fixed    2021-08-06	"Labels" in Results should now be named after their respective leaves
  *
  * #--------------- Issues ---------------#
  * Non-leaf objects being recognized based on surface area
@@ -187,7 +188,7 @@ function processLAR(input, output, file) {
 	if (leafchoice == "Multiple"){
 	    count=roiManager("count");
 	    array=newArray(count);
-
+	
 	    for(u=0; u<count; ++u) {
 			array[u] = u;
 	    }
@@ -217,6 +218,11 @@ function processLAR(input, output, file) {
         
 	//selectWindow("particles");
         //close();
+
+     for (i = 0; i < nResults; i++) {
+     	setResult("Label", i, basename + "_leaf" + i + 1);
+     }
+
 	
 //#--------------- closing time ---------------#
 
@@ -224,7 +230,7 @@ function processLAR(input, output, file) {
 	saveAs("Results", output + File.separator + basename + ".csv");
 	run("Clear Results");
 
-        print("Saving to: " + output);
+    print("Saving to: " + output);
 	close();
 	cleanUp();
 
