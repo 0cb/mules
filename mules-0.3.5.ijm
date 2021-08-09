@@ -52,6 +52,7 @@
  * Petiole Isolation/ crop
  * R workflow integration
  * Filtering based on standard deviation
+ * Elliptic Fourier Descriptors
  *
  * Play around with "Analyze Particles..." settings (circularity and size)
  * Look into "Particles8" settings
