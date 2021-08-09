@@ -1,0 +1,62 @@
+---
+title: "ImageJ imgSplit"
+author: "Christian Bowman"
+output:
+  pdf_document: default
+---
+
+\section{imgSplit}
+Quick and easy ImageJ macro for dividing images into equal grids. 
+
+\subsection{Workflow:}
+
+\begin{enumerate}
+  \item Download imgSplit.ijm
+  \item Open ImageJ/ FIJI
+  \item Navigate to Plugins > Macros > Edit... 
+  
+      \begin{minipage}[t]{\linewidth}   %https://tex.stackexchange.com/questions/46230/whats-the-best-way-to-include-graphics-in-an-enumerated-list
+        \raggedright
+        \includegraphics[width=.8\linewidth]{/home/cb/bioprogs/projects/fieldDIA/docs/demo_imgs/imgSplit-01.png}%
+        \medskip
+      \end{minipage}
+      
+  \item Open the imgSplit.ijm file (most likely in your /Downloads folder) and a box containing the macro will appear
+  
+      \begin{minipage}[t]{\linewidth}   %https://tex.stackexchange.com/questions/46230/whats-the-best-way-to-include-graphics-in-an-enumerated-list
+        \raggedright
+        \includegraphics[width=.8\linewidth]{/home/cb/bioprogs/projects/fieldDIA/docs/demo_imgs/imgSplit-02.png}%
+        \medskip
+      \end{minipage}
+  
+  \item Open the image you would like to split with File > Open...
+  
+  \pagebreak
+  
+  \item Click "Run" on the box with the imgSplit.ijm file
+  
+        \begin{minipage}[t]{\linewidth}   %https://tex.stackexchange.com/questions/46230/whats-the-best-way-to-include-graphics-in-an-enumerated-list
+        \raggedright
+        \includegraphics[width=.8\linewidth]{/home/cb/bioprogs/projects/fieldDIA/docs/demo_imgs/imgSplit-03.png}%
+        \medskip
+      \end{minipage}
+      
+  \item You should see the screen flash a little as the image gets processed. Your original image will close and an output box will appear containing the file name several times.
+  
+        \begin{minipage}[t]{\linewidth}   %https://tex.stackexchange.com/questions/46230/whats-the-best-way-to-include-graphics-in-an-enumerated-list
+        \raggedright
+        \includegraphics[width=.8\linewidth]{/home/cb/bioprogs/projects/fieldDIA/docs/demo_imgs/imgSplit-04.png}%
+        \medskip
+      \end{minipage}
+  
+  \item Check your folder containing the original image. You should see several new files that are split from the original.
+  
+        \begin{minipage}[t]{\linewidth}   %https://tex.stackexchange.com/questions/46230/whats-the-best-way-to-include-graphics-in-an-enumerated-list
+        \raggedright
+        \includegraphics[width=.8\linewidth]{/home/cb/bioprogs/projects/fieldDIA/docs/demo_imgs/imgSplit-05.png}%
+        \medskip
+      \end{minipage}
+    
+  \item The previous steps can be repeated for all your favorite images.
+    
+\end{enumerate}
