@@ -4,7 +4,8 @@ title = getTitle();
 
 processIMG();
 partROI();
-//morphoDraw();
+morphoDraw();
+resFilter();
 //perpLine();
 //cleanUp();
 
@@ -50,16 +51,20 @@ function morphoDraw() {
 	numberOfRows = nResults;
 	    for (row = 0; row < numberOfRows; row++) {
 
+		Are = getResult("Area", row);
 		Fer = getResult("Feret", row);
 		Fx1 = getResult("FeretX1", row);
 		Fy1 = getResult("FeretY1", row);
 		Fx2 = getResult("FeretX2", row);
 		Fy2 = getResult("FeretY2", row);
-	    
+
+	    Brd = getResult("Breadth", row);
 		Bx1 = getResult("BrdthX1", row);
 		By1 = getResult("BrdthY1", row);
 		Bx2 = getResult("BrdthX2", row);
 		By2 = getResult("BrdthY2", row);
+
+		Asp = getResult("AspRatio", row);
 
 		//Feret's
 		makeLine(Fx1, Fy1, Fx2, Fy2);
@@ -92,8 +97,8 @@ function morphoDraw() {
       	setResult("PBrdth", row, PLn);
       	updateResults();
 
-	    }
-
+	    }	    
+}
 
 function perpLine() {
 	numberOfRows = nResults;
@@ -173,6 +178,69 @@ function lineEq( x_1, y_1, x_2, y_2, x_3, y_3, x_4, y_4, bound_y1, bound_y2 ) {
 	// https://forum.image.sc/t/perpendicular-distance-between-2-lines-shortest-distance-between-2-lines/3862/5
 	// https://forum.image.sc/t/line-tool-to-roi-manager-with-different-colors/8090
     
+}
+
+function resFilter() {
+// Small table
+	nR = nResults;
+	//Lab = newArray(nR);
+	Are = newArray(nR);
+	Fer = newArray(nR);
+	Fx1 = newArray(nR);
+	Fy1 = newArray(nR);
+	Fx2 = newArray(nR);
+	Fy2 = newArray(nR);
+	Brd = newArray(nR);
+	Bx1 = newArray(nR);
+	By1 = newArray(nR);
+	Bx2 = newArray(nR);
+	By2 = newArray(nR);
+	Asp = newArray(nR);
+	Ln1 = newArray(nR);
+	Ln2 = newArray(nR);
+
+
+	// Grab the old results
+	for (i=0; i<nR;i++) {
+		//Lab[i] = getResultLabel(i);
+		Are[i] = getResult("Area", i);
+		Fer[i] = getResult("Feret", i);
+		Fx1[i] = getResult("FeretX1", i);
+		Fy1[i] = getResult("FeretY1", i);
+		Fx2[i] = getResult("FeretX2", i);
+		Fy2[i] = getResult("FeretY2", i);
+	    Brd[i] = getResult("Breadth", i);
+		Bx1[i] = getResult("BrdthX1", i);
+		By1[i] = getResult("BrdthY1", i);
+		Bx2[i] = getResult("BrdthX2", i);
+		By2[i] = getResult("BrdthY2", i);
+		Asp[i] = getResult("AspRatio", i);
+		Ln1[i] = getResult("PrLen1", i);
+		Ln2[i] = getResult("PrLen2", i);
+	}
+
+	// Rename the old table
+	IJ.renameResults("Raw Results");
+
+	// Make the new table
+	for (i=0; i<nR;i++) {
+		//setResult("Label", i, Lab[i]);
+		setResult("Area", i, Are[i]);
+      	setResult("Feret", i, Fer[i]);
+      	setResult("FeretX1", i, Fx1[i]);
+		setResult("FeretY1", i, Fy1[i]);
+      	setResult("FeretX2", i, Fx2[i]);
+      	setResult("FeretY2", i, Fy2[i]);
+      	setResult("Breadth", i, Brd[i]);
+      	setResult("BrdthX1", i, Bx1[i]);
+      	setResult("BrdthY1", i, By1[i]);
+      	setResult("BrdthX2", i, Bx2[i]);
+      	setResult("BrdthY2", i, By2[i]);
+      	setResult("AspRatio", i, Asp[i]);
+		setResult("PrLen1", i, Ln1[i]);
+      	setResult("PrLen2", i, Ln2[i]);
+	}
+	updateResults();
 }
 
 
