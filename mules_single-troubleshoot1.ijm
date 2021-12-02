@@ -8,6 +8,10 @@ morphoDraw();
 resFilter();
 //perpLine();
 //cleanUp();
+testingblock();
+
+
+
 
 function processIMG() {	
 	run("Gaussian Blur...", "sigma=4");
@@ -41,6 +45,7 @@ function partROI() {
 	roiManager("Combine");
 	run("Clear Outside");
 	roiManager("Deselect");
+	run("Clear Results");
 }
 
 function morphoDraw() {
@@ -243,6 +248,36 @@ function resFilter() {
 	updateResults();
 }
 
+//-testing block-//
+function testingblock() {
+
+	nAR = nResults;
+	rats = newArray(nAR);
+
+	
+	for (i=0; i<nAR;i++) {
+		rats[i] = getResult("AspRatio", i);
+		getStatistics(area, mean);
+		//rats[i-1] = mean;
+	}
+	Array.getStatistics(rats, min, max, mean, stdDev);
+	print("");
+   	print("n: "+nAR);
+   	print("mean: "+mean);
+  	print("stdDev: "+stdDev);
+   	print("min: "+min);
+   	print("max: "+max);
+
+//next steps: 
+//	- add numeric labels to images
+//	- add "_potOL" to label for potential outliers
+
+}
+
+
+
+
+//---------------//
 
 function cleanUp() {
     requires("1.30e");
