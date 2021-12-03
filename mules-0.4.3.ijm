@@ -386,6 +386,7 @@ function processLAR(input, output, file) {
 	Asp = newArray(nR);
 	Ln1 = newArray(nR);
 	Ln2 = newArray(nR);
+	Ln3 = newArray(nR);
 
 
 	// Grab the old results
