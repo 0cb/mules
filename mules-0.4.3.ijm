@@ -51,6 +51,7 @@
  * added    2021-11-16	leading zeros for output files
  * added    2021-11-19	"advanced options" section; small or detailed results option
  * added    2021-12-03	single line measurement between breadth points (for offset)
+ * changed  2021-12-03	individual colors for PrLen1/2
  *
  * #--------------- Issues ---------------#
  * Non-leaf objects being recognized based on surface area
@@ -314,16 +315,16 @@ function processLAR(input, output, file) {
 		run("Colors...", "foreground=white background=black selection=red");
 		run("Add Selection...");
 		//Roi.setStrokeColor("red"); //adding lines to ROI puts them in queue for cropping & causes error
-      	//roiManager("add & draw");
+		//roiManager("add & draw");
 
 		//Breadth - perpendicular to Feret's
       	
-      	makeLine(Bx1, By1, Px1, Py1);
+		makeLine(Bx1, By1, Px1, Py1);
 		run("Colors...", "foreground=white background=black selection=blue");
 		run("Add Selection...");
 
-      	makeLine(Bx2, By2, Px2, Py2);
-		run("Colors...", "foreground=white background=black selection=blue");
+		makeLine(Bx2, By2, Px2, Py2);
+		run("Colors...", "foreground=white background=black selection=green");
 		run("Add Selection...");
 	    }
 	}
