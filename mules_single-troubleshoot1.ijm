@@ -249,10 +249,12 @@ function resFilter() {
 }
 
 //-testing block-//
+
 function testingblock() {
 
 	nAR = nResults;
 	rats = newArray(nAR);
+	rats2 = newArray(nAR);
 
 	
 	for (i=0; i<nAR;i++) {
@@ -267,6 +269,54 @@ function testingblock() {
   	print("stdDev: "+stdDev);
    	print("min: "+min);
    	print("max: "+max);
+   	holding1 = mean + stdDev;
+   	holding2 = mean - stdDev;
+
+	for (i=0; i<nAR; i++) {
+		if(getResult("AspRatio", i) > holding1) {
+			print("max outlier indicies: "+i);
+			//need to append "i" to some sort of list (array, table, etc.) that cannot be overwritten
+			rats2[i] = getResult("AspRatio", i);
+			//roiManager("select", i);
+			//roiManager("delete");
+		} else {
+			if(getResult("AspRatio", i) < holding2) {
+				print("min outlier indicies: "+i);
+				//these values will override the array
+				rats2[i] = getResult("AspRatio", i);
+				//roiManager("select", i);
+				//roiManager("delete");
+			}
+		}
+	}
+	
+
+	//rerun stdDev
+	//j = index(rats2, 0.000);
+	rats2 = Array.deleteValue(rats2, 0.000);
+	Array.show(rats2);
+
+	//array magic
+	diff = ArrayDiff(rats, rats2);
+	Array.show(diff);
+	Array.getStatistics(diff, min, max, mean, stdDev);
+	print("");
+   	print("n: "+nAR);
+   	print("mean: "+mean);
+  	print("stdDev: "+stdDev);
+   	print("min: "+min);
+   	print("max: "+max);
+	
+	
+
+	//function index(a, value) {
+		///https://stackoverflow.com/questions/48206332/printing-array-items-by-index-number-in-imagej-fiji
+		///i = index(rats, stdDev);
+		///print("indicies: "+i); 
+		//for (i=0; i<a.length; i++) 
+      	//if (a[i] > value) return i; 
+    //return -1; 
+ 	//} 
 
 //next steps: 
 //	- add numeric labels to images
@@ -298,3 +348,116 @@ function cleanUp() {
           run("Close");
     }
 }
+
+
+//graveyard
+// -- used for stdDev filtering
+//table_name = "Outliers"
+//	table_cols = newArray("Max", "Min");
+//	newTable(table_name, table_cols);
+
+//	function newTable(table_name, table_cols) {
+//		Table.create(table_name);
+//		for (i=0; i<table_cols.length; i++) {
+//			selectWindow(table_name);
+//			Table.set(table_cols[i], 0, 0);
+//		}
+//	Table.deleteRows(0, 0, table_name);
+//	}
+
+
+// F U N C T I O N S .....................................................
+function ArrayUnion(array1, array2) {
+	unionA = newArray();
+	for (i=0; i<array1.length; i++) {
+		for (j=0; j<array2.length; j++) {
+			if (array1[i] == array2[j]){
+				unionA = Array.concat(unionA, array1[i]);
+			}
+		}
+	}
+	return unionA;
+}
+// . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+function ArrayDiff(array1, array2) {
+	diffA	= newArray();
+	unionA 	= newArray();	
+	for (i=0; i<array1.length; i++) {
+		for (j=0; j<array2.length; j++) {
+			if (array1[i] == array2[j]){
+				unionA = Array.concat(unionA, array1[i]);
+			}
+		}
+	}
+	c = 0;
+	for (i=0; i<array1.length; i++) {
+		for (j=0; j<unionA.length; j++) {
+			if (array1[i] == unionA[j]){
+				c++;
+			}
+		}
+		if (c == 0) {
+			diffA = Array.concat(diffA, array1[i]);
+		}
+		c = 0;
+	}
+	for (i=0; i<array2.length; i++) {
+		for (j=0; j<unionA.length; j++) {
+			if (array2[i] == unionA[j]){
+				c++;
+			}
+		}
+		if (c == 0) {
+			diffA = Array.concat(diffA, array2[i]);
+		}
+		c = 0;
+	}	
+	return diffA;
+}
+// . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+function ArrayUnique(array) {
+	array 	= Array.sort(array);
+	array 	= Array.concat(array, 999999);
+	uniqueA = newArray();
+	i = 0;	
+   	while (i<(array.length)-1) {
+		if (array[i] == array[(i)+1]) {
+			//print("found: "+array[i]);			
+		} else {
+			uniqueA = Array.concat(uniqueA, array[i]);
+		}
+   		i++;
+   	}
+	return uniqueA;
+}
+// . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+function ArrayOccur(array, n) {
+	array1 	= Array.sort(array);
+	array2 	= Array.concat(array1, 999999);
+	uniqueA = newArray();
+	i = 0;	
+   	while (i<(array2.length)-1) {
+		if (array2[i] == array2[(i)+1]) {
+			//print("found: "+array[i]);			
+		} else {
+			uniqueA = Array.concat(uniqueA, array2[i]);
+		}
+   		i++;
+   	}
+   	c = 0;
+   	occurA	= newArray();
+   	//compare unique with input array
+   	for (i=0; i<uniqueA.length; i++) {
+   		for (j=0; j<array.length; j++) {
+   			if (uniqueA[i] == array[j]) {
+   				c++;
+   			}
+   		}
+   		if (c == n) {
+   			occurA = Array.concat(occurA, uniqueA[i]);
+   		}
+   		c = 0;
+   	}
+	return occurA;
+}
+// . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
