@@ -254,58 +254,130 @@ function testingblock() {
 
 	nAR = nResults;
 	rats = newArray(nAR);
-	rats2 = newArray(nAR);
 
-	
+	//-populate array-
 	for (i=0; i<nAR;i++) {
 		rats[i] = getResult("AspRatio", i);
 		getStatistics(area, mean);
 		//rats[i-1] = mean;
 	}
-	Array.getStatistics(rats, min, max, mean, stdDev);
-	print("");
-   	print("n: "+nAR);
-   	print("mean: "+mean);
-  	print("stdDev: "+stdDev);
-   	print("min: "+min);
-   	print("max: "+max);
-   	holding1 = mean + stdDev;
-   	holding2 = mean - stdDev;
+   	//----------------
 
-	for (i=0; i<nAR; i++) {
-		if(getResult("AspRatio", i) > holding1) {
-			print("max outlier indicies: "+i);
-			//need to append "i" to some sort of list (array, table, etc.) that cannot be overwritten
-			rats2[i] = getResult("AspRatio", i);
-			//roiManager("select", i);
-			//roiManager("delete");
-		} else {
-			if(getResult("AspRatio", i) < holding2) {
-				print("min outlier indicies: "+i);
-				//these values will override the array
-				rats2[i] = getResult("AspRatio", i);
-				//roiManager("select", i);
-				//roiManager("delete");
-			}
+   	//cutFilter();
+
+	//-filter-
+	//function cutFilter() {
+		Array.getStatistics(rats, min, max, mean, stdDev);
+		print("");
+		print("rats");
+   		print("n: "+rats.length);
+   		print("mean: "+mean);
+  		print("stdDev: "+stdDev);
+   		print("min: "+min);
+   		print("max: "+max);
+   		Array.show(rats);
+		
+		cutoff = 0.4;
+   		
+   		if(stdDev > cutoff){
+   			print("stdDev is larger than "+cutoff);
+   			holding1 = mean + stdDev;
+   			holding2 = mean - stdDev;
+
+   			print("max cutoff: "+holding1);
+			print("min cutoff: "+holding2);
+
+   			rats2 = newArray(rats.length);
+
+   			for (i=0; i<rats.length; i++) {
+   				if(getResult("AspRatio", i) > holding1) {
+   					print("max outlier index: "+i);
+   					rats2[i] = getResult("AspRatio", i);
+   				} else {
+   					if(getResult("AspRatio", i) < holding2) {
+   						print("min outlier index: "+i);
+   						rats2[i] = getResult("AspRatio", i);
+   					}
+   				}
+   			}
+			//Array.deleteIndex() does not work here for some reason
+			rats2 = Array.deleteValue(rats2, 0.000);
+			Array.show(rats2);
+
+			//-array magic-
+			diff = ArrayDiff(rats, rats2);
+			Array.show(diff);
+
+			Array.getStatistics(diff, min, max, mean, stdDev);
+			print("");
+			print("diff");
+			print("n: "+diff.length);
+   			print("mean: "+mean);
+  			print("stdDev: "+stdDev);
+   			print("min: "+min);
+   			print("max: "+max);
+   		//-------------
+			//rats = diff;
+			//cutFilter();
+		//}
+		
+		//-recurrsion-
+		if(stdDev > cutoff){
+			print("stdDev is larger than filter. Rerunning filter");
+			ratsF = Array.copy(diff);
+			Array.show(ratsF);
+			////
+			Array.getStatistics(ratsF, min, max, mean, stdDev);
+			print("");
+			print("diff");
+			print("n: "+diff.length);
+   			print("mean: "+mean);
+  			print("stdDev: "+stdDev);
+   			print("min: "+min);
+   			print("max: "+max);
+			
+			holding3 = mean + stdDev;
+   			holding4 = mean - stdDev;
+
+			print("max cutoff: "+holding3);
+			print("min cutoff: "+holding4);
+			print("ratsF.length "+ratsF.length);
+
+			
+   			rats3 = newArray(ratsF.length);
+
+   			for (j=0; j<ratsF.length; j++) {
+   				if(ratsF[j] > holding3) {
+   					print("max outlier index: "+j);
+   					//getResult grabs from results table; need to grab from array
+   					rats3[j] = ratsF[j];
+   				} else {
+   					if(ratsF[j] < holding4) {
+   						print("min outlier index: "+j);
+   						rats3[j] = ratsF[j];
+   					}
+   				}
+   			}
+			//Array.deleteIndex() does not work here for some reason
+			rats3 = Array.deleteValue(rats3, 0.000);
+			Array.show(rats3);
+
+			//-array magic-
+			diff2 = ArrayDiff(ratsF, rats3);
+			Array.show(diff2);
+
+			Array.getStatistics(diff2, min, max, mean, stdDev);
+			print("");
+			print("diff2");
+			print("n: "+diff2.length);
+   			print("mean: "+mean);
+  			print("stdDev: "+stdDev);
+   			print("min: "+min);
+   			print("max: "+max);
+			
+			//cutFilter();				
 		}
-	}
-	
-
-	//rerun stdDev
-	//j = index(rats2, 0.000);
-	rats2 = Array.deleteValue(rats2, 0.000);
-	Array.show(rats2);
-
-	//array magic
-	diff = ArrayDiff(rats, rats2);
-	Array.show(diff);
-	Array.getStatistics(diff, min, max, mean, stdDev);
-	print("");
-   	print("n: "+nAR);
-   	print("mean: "+mean);
-  	print("stdDev: "+stdDev);
-   	print("min: "+min);
-   	print("max: "+max);
+   	}
 	
 	
 
@@ -322,7 +394,7 @@ function testingblock() {
 //	- add numeric labels to images
 //	- add "_potOL" to label for potential outliers
 
-}
+//}
 
 
 
