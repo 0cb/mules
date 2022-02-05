@@ -511,7 +511,7 @@ function ARstats() {
 	//-initial stats-
 		Array.getStatistics(rats, min, max, mean, stdDev);
 		print("");
-		print("rats");
+		print("Initial Stats"); //rats
    		print("n: "+rats.length);
    		print("mean: "+mean);
   		print("stdDev: "+stdDev);
@@ -538,7 +538,7 @@ function cutFilter() {
 	lowerBound = mean - stdDev;
 	
 	print("");
-	print("ratsF");
+	print("Stats pre-filtering using "+cutoff+" as the filter"); //ratsF
 	print("n: "+ratsF.length);
    	print("mean: "+mean);
   	print("stdDev: "+stdDev);
@@ -577,7 +577,7 @@ function cutFilter() {
 
 	Array.getStatistics(ratsDiff, min, max, mean, stdDev);
 	print("");
-	print("ratsDiff");
+	print("Stats post-filtering using "+cutoff+" as the filter"); //ratsDiff
 	print("n: "+ratsDiff.length);
    	print("mean: "+mean);
   	print("stdDev: "+stdDev);
