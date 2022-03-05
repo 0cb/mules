@@ -5,7 +5,7 @@ title = getTitle();
 processIMG();
 partROI();
 morphoDraw();
-resFilter();
+//resFilter();
 //perpLine();
 //cleanUp();
 testingblock();
@@ -51,7 +51,7 @@ function partROI() {
 function morphoDraw() {
 	selectWindow(title);
 
-	run("Particles8 ", "white morphology show=Particles minimum=0 maximum=9999999 display redirect=None");
+	run("Particles8 ", "white morphology show=Particles minimum=5000 maximum=9999999 display redirect=None");
 
 	numberOfRows = nResults;
 	    for (row = 0; row < numberOfRows; row++) {
@@ -267,6 +267,8 @@ function testingblock() {
   	print("stdDev: "+stdDev);
    	print("min: "+min);
    	print("max: "+max);
+
+   	//if
 
 //next steps: 
 //	- add numeric labels to images

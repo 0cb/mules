@@ -62,18 +62,18 @@ The ```MuLES``` workflow requires user-specification for the initial "input" and
 
 Images may contain one or several leaves, and leaves may be oriented in any way that is convenient. Typically, it is recommended that images contain some sort of identifier (such as accession number) to help users better organize their input files. Inputs should also be in color, rather than black & white or binary formats, but do not require a color reference card for leaf recognition. An example is included below.
 
-![](sample_data/sample_no1.png){width=50%}
+![](sample_data/sample_no1.jpg){width=50%}
 \newpage
 
 ```MuLES``` can also process images containing several accession or sample sets in a single image. In this case, the included ```imgSplits``` macro should be used. This function can be used to quickly split an original image into perfect squares (ie. 2x2, 3x3, etc.). An example is included below.
 
 ![](sample_data/sample.jpg){width=50%} 
 
-![](sample_data/sample_no1.png){width=33%} ![](sample_data/sample_no2.png){width=33%} ![](sample_data/sample_no3.png){width=33%}
+![](sample_data/sample_no1.jpg){width=33%} ![](sample_data/sample_no2.jpg){width=33%} ![](sample_data/sample_no3.jpg){width=33%}
 
-![](sample_data/sample_no4.png){width=33%} ![](sample_data/sample_no5.png){width=33%} ![](sample_data/sample_no6.png){width=33%}
+![](sample_data/sample_no4.jpg){width=33%} ![](sample_data/sample_no5.jpg){width=33%} ![](sample_data/sample_no6.jpg){width=33%}
 
-![](sample_data/sample_no7.png){width=33%} ![](sample_data/sample_no8.png){width=33%} ![](sample_data/sample_no9.png){width=33%}
+![](sample_data/sample_no7.jpg){width=33%} ![](sample_data/sample_no8.jpg){width=33%} ![](sample_data/sample_no9.jpg){width=33%}
 
 
 \newpage
