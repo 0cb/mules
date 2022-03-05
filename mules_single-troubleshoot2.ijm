@@ -5,7 +5,7 @@ title = getTitle();
 processIMG();
 partROI();
 morphoDraw();
-//resFilter();
+resFilter();
 //perpLine();
 //cleanUp();
 testingblock();
@@ -52,7 +52,7 @@ function partROI() {
 function morphoDraw() {
 	selectWindow(title);
 
-	run("Particles8 ", "white morphology show=Particles minimum=5000 maximum=9999999 display redirect=None");
+	run("Particles8 ", "white morphology show=Particles minimum=0 maximum=9999999 display redirect=None");
 
 	numberOfRows = nResults;
 	    for (row = 0; row < numberOfRows; row++) {
@@ -189,7 +189,7 @@ function lineEq( x_1, y_1, x_2, y_2, x_3, y_3, x_4, y_4, bound_y1, bound_y2 ) {
 function resFilter() {
 // Small table
 	nR = nResults;
-	//Lab = newArray(nR);
+	Lab = newArray(nR);
 	Are = newArray(nR);
 	Fer = newArray(nR);
 	Fx1 = newArray(nR);
@@ -208,7 +208,7 @@ function resFilter() {
 
 	// Grab the old results
 	for (i=0; i<nR;i++) {
-		//Lab[i] = getResultLabel(i);
+		Lab[i] = getResultLabel(i);
 		Are[i] = getResult("Area", i);
 		Fer[i] = getResult("Feret", i);
 		Fx1[i] = getResult("FeretX1", i);
@@ -230,7 +230,7 @@ function resFilter() {
 
 	// Make the new table
 	for (i=0; i<nR;i++) {
-		//setResult("Label", i, Lab[i]);
+		setResult("Label", i, Lab[i]);
 		setResult("Area", i, Are[i]);
       	setResult("Feret", i, Fer[i]);
       	setResult("FeretX1", i, Fx1[i]);
@@ -254,20 +254,26 @@ function resFilter() {
 function testingblock() {
 
 // stdDev filter only works with leaves in current image; need to be able to apply over extended set
+	cutoff = 0.375;  // stdDev cutoff for filtering
 	nAR = nResults;
+	labs = newArray(nAR);
 	rats = newArray(nAR);
+
+	for (i = 0; i < nAR; i++) {
+     	idx = i + 1;
+     	setResult("Label", i, "leaf" + IJ.pad(idx, 3));
+     }
 
 	//-populate array-
 	for (i=0; i<nAR;i++) {
+		labs[i] = getResultLabel(i);
 		rats[i] = getResult("AspRatio", i);
 		getStatistics(area, mean);
 		//rats[i-1] = mean;
 	}
    	//----------------
 
-   	//cutFilter();
-
-	//-filter-
+	//-initial stats-
 		Array.getStatistics(rats, min, max, mean, stdDev);
 		print("");
 		print("rats");
@@ -277,169 +283,78 @@ function testingblock() {
    		print("min: "+min);
    		print("max: "+max);
    		Array.show(rats);
-		
-		cutoff = 0.3;
-   		
+   	//----------------
+
+   	//-filter-
    		if(stdDev > cutoff){
-   			print("stdDev is larger than "+cutoff);
-   			holding1 = mean + stdDev;
-   			holding2 = mean - stdDev;
-
-   			print("max cutoff: "+holding1);
-			print("min cutoff: "+holding2);
-
-   			rats2 = newArray(rats.length);
-
-   			for (i=0; i<rats.length; i++) {
-   				// why are we using getResult here when we have the rats array already?
-   				// want to print ID of leaf/ roi instead of index
-   				//if(getResult("AspRatio", i) > holding1) {
-   				if(rats[i] > holding1) {
-   					print("max outlier index: "+i);
-   					//rats2[i] = getResult("AspRatio", i);
-   					rats2[i] = rats[i];
-   				} else {
-   					//if(getResult("AspRatio", i) < holding2) {
-   					if(rats[i] < holding2) {
-   						print("min outlier index: "+i);
-   						//rats2[i] = getResult("AspRatio", i);
-   						rats2[i] = rats[i];
-   					}
-   				}
-   			}
-			//Array.deleteIndex() does not work here for some reason
-			rats2 = Array.deleteValue(rats2, 0.000);
-			Array.show(rats2);
-
-			//-array magic-
-			diff = ArrayDiff(rats, rats2);
-			Array.show(diff);
-
-			Array.getStatistics(diff, min, max, mean, stdDev);
-			print("");
-			print("diff");
-			print("n: "+diff.length);
-   			print("mean: "+mean);
-  			print("stdDev: "+stdDev);
-   			print("min: "+min);
-   			print("max: "+max);
-   		//-------------
-			//rats = diff;
-			//cutFilter();
-		//}
-		
-		//-recurrsion-
-		// function cutFilter(){ 
-		// cutFilter recurrsion should begin here if needed
-		if(stdDev > cutoff){
-			print("stdDev is larger than filter. Rerunning filter");
-			ratsF = Array.copy(diff);
-			Array.show(ratsF);
-			////
-			Array.getStatistics(ratsF, min, max, mean, stdDev);
-			print("");
-			print("diff");
-			print("n: "+diff.length);
-   			print("mean: "+mean);
-  			print("stdDev: "+stdDev);
-   			print("min: "+min);
-   			print("max: "+max);
-			
-			holding3 = mean + stdDev;
-   			holding4 = mean - stdDev;
-
-			print("max cutoff: "+holding3);
-			print("min cutoff: "+holding4);
-			print("ratsF.length "+ratsF.length);
-
-			
-   			rats3 = newArray(ratsF.length);
-
-   			for (j=0; j<ratsF.length; j++) {
-   				if(ratsF[j] > holding3) {
-   					print("max outlier index: "+j);
-   					//getResult grabs from results table; need to grab from array
-   					rats3[j] = ratsF[j];
-   				} else {
-   					if(ratsF[j] < holding4) {
-   						print("min outlier index: "+j);
-   						rats3[j] = ratsF[j];
-   					}
-   				}
-   			}
-			//Array.deleteIndex() does not work here for some reason
-			rats3 = Array.deleteValue(rats3, 0.000);
-			Array.show(rats3);
-
-			//-array magic-
-			diff2 = ArrayDiff(ratsF, rats3);
-			Array.show(diff2);
-
-			Array.getStatistics(diff2, min, max, mean, stdDev);
-			print("");
-			print("diff2");
-			print("n: "+diff2.length);
-   			print("mean: "+mean);
-  			print("stdDev: "+stdDev);
-   			print("min: "+min);
-   			print("max: "+max);
-			
-			//cutFilter();				
-		}
-   	}
+   			cutFilter();
+   		}
+   	//--------
+}
 
 function cutFilter() {
-	print("stdDev is larger than filter. Rerunning filter");
-	ratsF = Array.copy(diff);
+	print("stdDev is larger than "+cutoff+". Running filter");
+	labsF = Array.copy(labs);
+	ratsF = Array.copy(rats);
 	Array.show(ratsF);
 			////
 	Array.getStatistics(ratsF, min, max, mean, stdDev);
+	upperBound = mean + stdDev;
+	lowerBound = mean - stdDev;
+	
 	print("");
-	print("diff");
-	print("n: "+diff.length);
+	print("ratsF");
+	print("n: "+ratsF.length);
    	print("mean: "+mean);
   	print("stdDev: "+stdDev);
-   	print("min: "+min);
-   	print("max: "+max);
-			
-	holding3 = mean + stdDev;
-   	holding4 = mean - stdDev;
+   	print("min: "+max);
+   	print("max: "+min);
+   	print("max cutoff: "+upperBound);
+	print("min cutoff: "+lowerBound);
 
-	print("max cutoff: "+holding3);
-	print("min cutoff: "+holding4);
-	print("ratsF.length "+ratsF.length);
-
-	rats3 = newArray(ratsF.length);
+	labsOut = newArray(ratsF.length);
+	ratsOut = newArray(ratsF.length);
 
    	for (j=0; j<ratsF.length; j++) {
-   		if(ratsF[j] > holding3) {
-   			print("max outlier index: "+j);
-   			//getResult grabs from results table; need to grab from array
-   			rats3[j] = ratsF[j];
+   		if(ratsF[j] > upperBound) {
+   			print("max outlier ID: "+labsF[j]);
+   			// if outlier ID, then setResult("Label", i, basename + "outlier" + IJ.pad(idx, 3));
+   			labsOut[j] = labsF[j];
+   			ratsOut[j] = ratsF[j];
    		} else {
-   			if(ratsF[j] < holding4) {
-   				print("min outlier index: "+j);
-   				rats3[j] = ratsF[j];
+   			if(ratsF[j] < lowerBound) {
+   				print("min outlier ID: "+labsF[j]);
+   				labsOut[j] = labsF[j];
+   				ratsOut[j] = ratsF[j];
    			}
    		}
    	}
 	//Array.deleteIndex() does not work here for some reason
-	rats3 = Array.deleteValue(rats3, 0.000);
-	Array.show(rats3);
+	labsOut = Array.deleteValue(labsOut, 0);
+	ratsOut = Array.deleteValue(ratsOut, 0.000);
+	Array.show(ratsOut);
 
 	//-array magic-
-	diff2 = ArrayDiff(ratsF, rats3);
-	Array.show(diff2);
+	labsDiff = ArrayDiff(labsF, labsOut);
+	ratsDiff = ArrayDiff(ratsF, ratsOut);
+	Array.show(ratsDiff);
 
-	Array.getStatistics(diff2, min, max, mean, stdDev);
+	Array.getStatistics(ratsDiff, min, max, mean, stdDev);
 	print("");
-	print("diff2");
-	print("n: "+diff2.length);
+	print("ratsDiff");
+	print("n: "+ratsDiff.length);
    	print("mean: "+mean);
   	print("stdDev: "+stdDev);
-   	print("min: "+min);
    	print("max: "+max);
-}
+   	print("min: "+min);
+
+	labs = Array.copy(labsDiff);
+	rats = Array.copy(ratsDiff);
+
+	if(stdDev > cutoff) {
+		cutFilter();
+	}
+} ///make array at bottom of function and before function call
 	
 
 	//function index(a, value) {
@@ -450,8 +365,6 @@ function cutFilter() {
       	//if (a[i] > value) return i; 
     //return -1; 
  	//} 
-
-   	//if
 
 //next steps: 
 //	- add numeric labels to images

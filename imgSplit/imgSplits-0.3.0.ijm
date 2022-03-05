@@ -101,7 +101,8 @@ function processFile(input, output, file) {
         print(title);
         //ids[i]=getImageID();
 
-        saveAs("PNG", output + File.separator + basename + "_no" + (i+1) + ".png");
+        //saveAs("PNG", output + File.separator + basename + "_no" + (i+1) + ".png");
+        saveAs("JPEG", output + File.separator + basename + "_no" + (i+1) + ".jpg");
 	} 
 
 	//cleanUp();
