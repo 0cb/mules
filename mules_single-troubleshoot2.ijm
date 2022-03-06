@@ -2,7 +2,8 @@ title = getTitle();
 
 // options
 
-processIMG();
+//processIMG();
+processIMG2();
 partROI();
 morphoDraw();
 resFilter();
@@ -12,10 +13,9 @@ testingblock();
 
 
 
-
 function processIMG() {	
 	run("Gaussian Blur...", "sigma=4");
-	setOption("BlackBackground", true); //defaults to white background for first run only...
+	setOption("BlackBackground", false); //defaults to white background for first run only...
 	run("Make Binary");
 	//run("Fill Holes");
 	//run("Watershed");
@@ -26,6 +26,12 @@ function processIMG() {
 
 	//run("8-bit");
 	//run("Auto Threshold", "method=Huang");
+}
+
+function processIMG2() {
+	run("8-bit");
+	setThreshold(15, 255);
+	run("Convert to Mask");
 }
 
 function partROI() {
