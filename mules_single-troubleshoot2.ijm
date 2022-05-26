@@ -2,8 +2,8 @@ title = getTitle();
 
 // options
 
-//processIMG();
-processIMG2();
+processIMG();
+//processIMG2();
 partROI();
 morphoDraw();
 resFilter();
@@ -15,7 +15,7 @@ testingblock();
 
 function processIMG() {	
 	run("Gaussian Blur...", "sigma=4");
-	setOption("BlackBackground", false); //defaults to white background for first run only...
+	setOption("BlackBackground", true); //defaults to white background for first run only...
 	run("Make Binary");
 	//run("Fill Holes");
 	//run("Watershed");
@@ -313,8 +313,8 @@ function cutFilter() {
 	print("n: "+ratsF.length);
    	print("mean: "+mean);
   	print("stdDev: "+stdDev);
-   	print("min: "+max);
-   	print("max: "+min);
+   	print("min: "+min);
+   	print("max: "+max);
    	print("max cutoff: "+upperBound);
 	print("min cutoff: "+lowerBound);
 
