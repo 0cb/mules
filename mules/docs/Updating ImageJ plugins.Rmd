@@ -1,0 +1,48 @@
+---
+title: "Updating ImageJ plugins"
+author: "Christian Bowman"
+output: 
+  pdf_document: default
+---
+
+\section{Updating ImageJ plugins}
+
+\subsection{Instructions:}
+
+\begin{enumerate}
+  \item Open ImageJ/ FIJI
+  \item Go to "Help" on the far right. Scroll down and click "Update..."
+    
+      \begin{minipage}[t]{\linewidth}
+      %test
+        \raggedright
+        \includegraphics[width=.8\linewidth]{/home/cb/gitrekt/itwasme-DIA/mules/docs/demo_imgs/scrot-morpho_01.png}%
+        \medskip
+      \end{minipage}
+    
+  \item Select "Manage update sites"
+  
+      \begin{minipage}[t]{\linewidth}   %https://tex.stackexchange.com/questions/46230/whats-the-best-way-to-include-graphics-in-an-enumerated-list
+        \raggedright
+        \includegraphics[width=.8\linewidth]{/home/cb/gitrekt/itwasme-DIA/mules/docs/demo_imgs/scrot-morpho_02.png}%
+        \medskip
+      \end{minipage}
+      
+  \item Scroll through the list and add "BioVoxxel" and "Morphology", then click "Apply Changes"
+  
+      \begin{minipage}[t]{\linewidth}   %https://tex.stackexchange.com/questions/46230/whats-the-best-way-to-include-graphics-in-an-enumerated-list
+        \raggedright
+        \includegraphics[width=.8\linewidth]{/home/cb/gitrekt/itwasme-DIA/mules/docs/demo_imgs/scrot-morpho_03.png}%
+        \medskip
+      \end{minipage}
+  
+  \item It should load some new files and give you a prompt to restart ImageJ/ FIJI. Restart ImageJ/ FIJI for the plugins to take effect.
+  \item You should should now be able to use the "BioVoxxel" and "Morphology" plugins in your macros or through the menus ("Plugins" > "Morphology" > "Particles8")
+  
+      \begin{minipage}[t]{\linewidth}   %https://tex.stackexchange.com/questions/46230/whats-the-best-way-to-include-graphics-in-an-enumerated-list
+        \raggedright
+        \includegraphics[width=.8\linewidth]{/home/cb/gitrekt/itwasme-DIA/mules/docs/demo_imgs/scrot-morpho_04.png}%
+        \medskip
+      \end{minipage}
+
+\end{enumerate}
