@@ -1,7 +1,7 @@
 /*
 *=									   =*
 *   Filename:	    mules.ijm
-*   Version:	    2.0
+*   Version:	    0.2.0
 *=									   =*
 *   Description:    Multiple Leaf Separation (mules)
 *		    > separate & binarize multiple leaves from a single image
