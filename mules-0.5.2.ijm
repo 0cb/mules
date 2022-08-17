@@ -1,4 +1,4 @@
-/* Multiple Leaf Shapes (mules)
+/* Multiple Leaf Sample Extraction System (MuLES)
  *   
  *  ImageJ macro used to separate & calculate the leaf aspect ratio (LAR)
  *   for multiple leaves in multple images.
@@ -6,11 +6,12 @@
  *
  *   Filename:	mules.ijm
  *   Version:	0.5.2
+ *   License:	GPL-3.0-or-later
  *
  *   Author:	0cb - Christian Bowman
  *   Creation:	2021-03-25
- *   Updated:	2022-05-26 12:07
- *   Project:	"itwasme-DIA"; Digital image analysis
+ *   Updated:	2022-08-17 12:34
+ *   Project:	"mules"; Digital image analysis
  *
  *   Usage: Must be run through IJ GUI
  *   0. For analyzing images with multiple plant accessions,
@@ -24,62 +25,12 @@
  *
  *  #--------------- Dependencies ---------------#
  *	ImageJ/ FIJI ver:
- *	2.3.0/1.53f51; Java 1.8.0_172
+ *	    Windows/ Linux: 2.3.0/1.53f51; Java 1.8.0_172
+ *	    macOS:	    2.3.0/1.53q; Java 1.8.0_202
  *	ImageJ/ FIJI Plugins: 
  *	'Particles8 ' (Morphology) https://blog.bham.ac.uk/intellimic/g-landini-software/
  *	'Watershed Irregular Features' (BioVoxxel) https://imagej.net/plugins/biovoxxel-toolbox
  */
-
-
-/* #--------------- Changes ---------------#
- * added    2021-07-03	parameter for single vs multiple leaf analysis
- * removed  2021-07-03	redundant measurments from default "Analyze particles..."
- * added    2021-07-04	dependencies check
- * changed  2021-07-05	how single vs multiple leaves are handled during the LAR measurement step
- * added    2021-07-05	cleaned up step to eliminate background noise in 'single leaf' images
- * fixed    2021-08-04	small leaves were not picked up; reduced surface area requirement for detection 
- * fixed    2021-08-04	no measurements in output when "Measurements" or "Both" selected
- * fixed    2021-08-04	irregular watershed was not being applied to images containing multiple leaves
- * fixed    2021-08-06	full image for detected leaves came out too dim to use
- * fixed    2021-08-06	"Labels" in Results should now be named after their respective leaves
- * added    2021-08-09	option for .jpg or .png output images
- * added    2021-10-15	"advanced options" section; red & blue lines for F.diam & breadth
- * added    2021-10-16	"advanced options" section; pick up small leaves (area = 1000px)
- * changed  2021-11-15	method for drawing breadth; clarification for how breadth is actually measured
- * fixed    2021-11-16	colors should be fixed now for line drawing
- * added    2021-11-16	"advanced options" section; swap between white/black and black/white 
- * added    2021-11-16	leading zeros for output files
- * added    2021-11-19	"advanced options" section; small or detailed results option
- * added    2021-12-03	single line measurement between breadth points (for offset)
- * changed  2021-12-03	individual colors for PrLen1/2
- * added    2022-01-25	filter based on stdDev of AspRatio; **only works with EACH image- cannot use with 1 genotype spread over multiple images
- * removed  2022-03-06	detailed csv option; can be revisited
- * added    2022-03-06	troubleshooting method for detecting single leaves
- * changed  2022-05-26	wording for GUI
- * changed	2022-05-26	now saves full picture with labels
- * added	2022-05-26	"outlier" tag to filenames
- *
- * #--------------- Issues ---------------#
- * Non-leaf objects being recognized based on surface area
- *	> adds additional measurements to the output
- *	>> some foreign objects still fall within cutoff range of stdDev filter
- *	>>> need secondary filter based on Area values (can be tricky with small leaves)
- *  
- *  watershed separator value 0-100 for overlap/ touch; value 0-250 for normal
- *  
- *  "outlier" filename tags not available for "Masks only" option
- *
- * #--------------- Planned ---------------#
- * Renaming for output (user-specs, leading zeros, ...)
- * Petiole Isolation/ crop
- * R workflow integration
- * Elliptic Fourier Descriptors
- * PCA, Umap(?)
- * degree of offset for 'FBrdth'
- * parameters as % of image pixel dimensions
- * 
- */
-
 
 //#--------------- Opening parameters ---------------#
 

@@ -16,7 +16,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-setwd("~/Insync/cbowm002@ucr.edu/Google Drive/workspace-sync/mules_testing/docs")
+setwd("~/gitrekt/mules/docs")
 
 ```
 
@@ -25,31 +25,30 @@ setwd("~/Insync/cbowm002@ucr.edu/Google Drive/workspace-sync/mules_testing/docs"
 
 # What is MuLES?
 
-```MuLES``` (Multiple Leaf Shape Extraction System) is a workflow based in ImageJ [cite] for quickly analyzing traditional morphometric parameters of leaf samples. The workflow combines the usage of several plugins [cite] to identify and measure different parameters relevant to object shape, such as object length, width, area, and aspect ratio. These measurements can be taken using raw images and require no initial pre-processing steps* (eg. thresholding).
+```MuLES``` (Multiple Leaf Shape Extraction System) is a workflow based in ImageJ (Schneider et al., 2012) for quickly analyzing traditional morphometric parameters of simple leaf type samples. The workflow utilizes plugins published for use in ImageJ to identify and measure different parameters relevant to object shape, such as object length, width, area, and aspect ratio. These measurements can be taken using raw input images and require no initial pre-processing steps (eg. thresholding).
 
 A summary of the capabilities of ```MuLES``` is as follows:
 
 * User-friendly workflow that features a graphical user interface (GUI) and does not require prior coding knowledge.
 * Automated batch processing of multiple images containing one or several leaves per image, allowing for high-throughput measuring of large populations.
 * Orientation-agnostic processing that can identify individual leaves in close proximity.
-* Additional options for controlling how the results are output, allowing for users to incorporate the output from ```MuLES``` into other image analysis softwares (eg. MOMOCS).
+* Additional options for controlling how the results are output, allowing for users to incorporate the output from ```MuLES``` into other image analysis softwares (eg. Momocs).
 
 # ImageJ/ Fiji installation
-To use ```MuLES```, it is recommended that users install Fiji [cite], a pre-packaged distribution of the image analysis software ImageJ [cite]. This distribution comes pre-packaged with multiple plugins for use in scientific image analysis.
+To use ```MuLES```, it is recommended that users install Fiji (Schindelin et al., 2012), a pre-packaged distribution of the image analysis software ImageJ. This distribution comes pre-packaged with multiple plugins for use in scientific image analysis.
 
 Additionally, ```MuLES``` requires two dependencies that can be installed through the Fiji interface.
 
-> Help \> Update... \> Manage update sites \> (Select the following two plugins:)
+```> Help > Update... > Manage update sites > (Select the following two plugins:)```
 
-* Morphology [cite]
-* BioVoxxel [cite]
+* Morphology (Landini, 2008)
+* BioVoxxel (Brocher, 2022)
 
-![](demo_imgs/plugins_01.png){width=50%} ![](demo_imgs/plugins_02.png){width=50%}
-![](demo_imgs/plugins_03.png){width=50%}
+![](demo_imgs/plugins_01.png){width=33%} ![](demo_imgs/plugins_02.png){width=33%} ![](demo_imgs/plugins_03.png){width=33%}
 
 
 ## Installing MuLES
-```MuLES``` can be downloaded via the [Github repository](https://github.com/0cb/itwasme-DIA/mules). The download location for the MuLES.ijm file can be wherever users want, as long as it is easily accessible.
+```MuLES``` can be downloaded via the [Github repository](https://github.com/0cb/mules) (https://github.com/0cb/mules). After downloading MuLES, users are not required to move the Mules.ijm file to a specific location, as long as it is easily accessible.
 
 ## Setting up the working directory
 The ```MuLES``` workflow requires user-specification for the initial "input" and "output" directories.
@@ -58,36 +57,40 @@ The ```MuLES``` workflow requires user-specification for the initial "input" and
 
 
 # Image Inputs
-```MuLES``` can be run with almost any image format as long as it is specified. This was done to allow for batch processing of folders containing other files in addition to the desired input image files.
+```MuLES``` can be run with almost any image format as long as it is specified. This allows for batch processing of folders containing other files in addition to the desired input image files.
 
-Images may contain one or several leaves, and leaves may be oriented in any way that is convenient. Typically, it is recommended that images contain some sort of identifier (such as accession number) to help users better organize their input files. Inputs should also be in color, rather than black & white or binary formats, but do not require a color reference card for leaf recognition. An example is included below.
+Images may contain one or several leaves, and leaves may be oriented in any way that is convenient. Typically, it is recommended that images contain an identifier (such as accession number) to help users better organize their input files. Inputs should also be in color, rather than black & white or binary formats, but do not require a color reference card for leaf recognition. An example is included below.
 
-![](sample_data/sample_no1.jpg){width=50%}
-\newpage
+&nbsp;
+
+```{r SampleImg, fig.align="center", out.height="35%", out.width="35%", echo=FALSE}
+knitr::include_graphics("demo_imgs/sample_no1.jpg")
+```
+
+&nbsp;
 
 ```MuLES``` can also process images containing several accession or sample sets in a single image. In this case, the included ```imgSplits``` macro should be used. This function can be used to quickly split an original image into perfect squares (ie. 2x2, 3x3, etc.). An example is included below.
 
-![](sample_data/sample.jpg){width=50%} 
+```{r imgSplit, fig.align="center", out.height="75%", out.width="75%", echo=FALSE}
+knitr::include_graphics("demo_imgs/imgSplit.jpg")
+```
 
-![](sample_data/sample_no1.jpg){width=33%} ![](sample_data/sample_no2.jpg){width=33%} ![](sample_data/sample_no3.jpg){width=33%}
-
-![](sample_data/sample_no4.jpg){width=33%} ![](sample_data/sample_no5.jpg){width=33%} ![](sample_data/sample_no6.jpg){width=33%}
-
-![](sample_data/sample_no7.jpg){width=33%} ![](sample_data/sample_no8.jpg){width=33%} ![](sample_data/sample_no9.jpg){width=33%}
-
-
-\newpage
+\pagebreak
 # Running MuLES
 
 When running ```MuLES``` it is important that there are no images or projects open in the ImageJ/ Fiji software.
 
 To run ```MuLES```, navigate the Fiji interface to the macro interface.
 
-> Plugins \> Macros \> Edit...
+```> Plugins > Macros > Edit...```
 
 ![](demo_imgs/mules_01.png){width=50%} 
 
+&nbsp;
+
 Select and open the MuLES.ijm file. Once the macro is open, clicking "Run" will begin the ```MuLES``` software and prompt the user for the initial input settings.
+
+&nbsp;
 
 ![](demo_imgs/mules_02.png){width=50%}
 
@@ -95,11 +98,16 @@ Select and open the MuLES.ijm file. Once the macro is open, clicking "Run" will 
 ## MuLES settings
 The user prompt for ```MuLES``` settings includes:
 
-![](demo_imgs/mules_03.png){width=50%}
+&nbsp;
+
+```{r GUI, fig.align="center", out.height="60%", out.width="60%", echo=FALSE}
+knitr::include_graphics("demo_imgs/mules_03.png")
+```
+
+&nbsp;
 
 * input/ output folders
 * input/ output formats
-* **single or multiple leaves per image**
 * type of output desired
   + **Measurements only** - measurements are printed to a .csv file
   + **Masks only** - individual images are saved to the specified output format for later use (eg. visual filtering, other analysis softwares, etc.)
@@ -112,8 +120,8 @@ For additional settings:
   + **NOTE** background noise/ objects may be falsely identified as a result
 * **Black leaves on white background** - if "yes" is selected, output images will be black & white rather than white & black
   + for use in MOMOCS (see 'MuLES output' for examples)
-* **Detailed measurements** - if "yes" is selected, the full output of measurements from ```MuLES``` will be printed to an additional .csv file
-  + The full output includes measurements that are not necessarily associated with morphometric parameters, but may be useful for more detailed analyses pertaining to ___ moprhometrics; a full list of the output measurements and their meanings can be found at ## MuLES output.
+* **Filtering based on LAR standard deviation** - if "yes" is selected, the standard deviation for the aspect ratio of each object will be measured and used as a metric to recommend leaves for removal from further analyses. Output images of leaves will have "-outlier" appended to the file name if they lie outside of the user-specified standard deviation limit.
+* **Dark leaves on black background** - this option is intended to assist with troubleshooting when leaves are of a similar color to the image background.
 
 After the correct settings are chosen, click "OK" to begin processing the chosen input folder. Each image in the folder will flash on the screen as they are processed and do not require any further user input.
 
@@ -131,27 +139,29 @@ When selecting **"Measurements only"** or **"Both"**, the resulting measurements
 
 The default data table contains the following measurements:
 
-* Area - the Area of the region as defined by the boundary pixels
-* Feret - length of the largest axis
-* FeretX1 - X coordinate for the start point of the line defining the 'Feret' measurement
-* FeretY1 - Y coordinate for the start point of the line defining the 'Feret' measurement
-* FeretX2 - X coordinate for the end point of the line defining the 'Feret' measurement
-* FeretY2 - Y coordinate for the end point of the line defining the 'Feret' measurement
-* FAngle - angle (degrees; 0 - 180) of the line defining the 'Feret' measurement in relation to the horizontal X axis
-* Breadth - length of the largest axis that is perpendicular to the Feret line (may not be colinear)
-* BrdthX1 - X coordinate for the first point of the line defining the 'Breadth' measurement
-* BrdthY1 - Y coordinate for the first point of the line defining the 'Breadth' measurement
-* BrdthX2 - X coordinate for the second point of the line defining the 'Breadth' measurement
-* BrdthY2 - Y coordinate for the second point of the line defining the 'Breadth' measurement
-* AspRatio - the Aspect Ratio as defined by AspRatio = Feret/ Breadth
-* PrLen1 - length of the perpendicular line originating from the first Breadth point
-* PrLen2 - length of the perpendicular line originating from the second Breadth point
+* **Area** - the Area of the region as defined by the boundary pixels
+* **Feret** - length of the largest axis
+* **FeretX1** - X coordinate for the start point of the line defining the 'Feret' measurement
+* **FeretY1** - Y coordinate for the start point of the line defining the 'Feret' measurement
+* **FeretX2** - X coordinate for the end point of the line defining the 'Feret' measurement
+* **FeretY2** - Y coordinate for the end point of the line defining the 'Feret' measurement
+* **FAngle** - angle (degrees; 0 - 180) of the line defining the 'Feret' measurement in relation to the X axis
+* **Breadth** - length of the largest axis that is perpendicular to the Feret line (may not be colinear)
+* **BrdthX1** - X coordinate for the first point of the line defining the 'Breadth' measurement
+* **BrdthY1** - Y coordinate for the first point of the line defining the 'Breadth' measurement
+* **BrdthX2** - X coordinate for the second point of the line defining the 'Breadth' measurement
+* **BrdthY2** - Y coordinate for the second point of the line defining the 'Breadth' measurement
+* **AspRatio** - the Aspect Ratio as defined by AspRatio = Feret/ Breadth
+* **PrLen1** - length of the perpendicular line originating from the first Breadth point
+* **PrLen2** - length of the perpendicular line originating from the second Breadth point
 
+&nbsp;
 
-When choosing the **"Detailed measurements file"** option, all the default measurements as well as additional measurements are output to a different .csv file. Many of these measurements come from the "Particles8" plugin found in the ```Morphology``` package included in the ```MuLES``` workflow and can be referenced at the original website (test)[test]. A description of relevant measurements are also included below for reference:
+# References
+Brocher, J. 2022. biovoxxel/BioVoxxel-Toolbox: BioVoxxel Toolbox. Zenodo.
 
-* Perim - the Perimeter of the region as defined by the boundary pixels
-* Circ - 
-* Roundness - 
-* Concavity -
-* Convexity -
+Landini, G. 2008. Advanced shape analysis with ImageJ. Proceedings of the Second ImageJ User and Developer Conference, Luxembourg, 116–121.
+
+Schindelin, J., I. Arganda-Carreras, E. Frise, V. Kaynig, M. Longair, T. Pietzsch, S. Preibisch, et al. 2012. Fiji: an open-source platform for biological-image analysis. Nature Methods 9: 676–682.
+
+Schneider, C. A., W. S. Rasband, and K. W. Eliceiri. 2012. NIH Image to ImageJ: 25 years of image analysis. Nature Methods 9: 671–675.
