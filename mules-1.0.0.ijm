@@ -5,10 +5,10 @@
  *   Workflow includes separating & binarizing leaves
  *
  *   Filename:	mules.ijm
- *   Version:	0.5.2
+ *   Version:	1.0.0
  *   License:	GPL-3.0-or-later
  *
- *   Author:	0cb - Christian Bowman
+ *   Author:	0cb - Christian S. Bowman
  *   Creation:	2021-03-25
  *   Updated:	2022-08-17 12:34
  *   Project:	"mules"; Digital image analysis
@@ -58,9 +58,9 @@ if (List.get("Particles8 ")!="") {
 #@ String   (label = "Colored Feret's diameter and breadth lines?", choices=("yes", "no"), style="radioButtonHorizontal") redblue
 #@ String   (label = "Small leaves in image? (May pick up more non-leaf objects)", choices=("yes", "no"), value="no", persist=false, style="radioButtonHorizontal") smleaf
 #@ String   (label = "Output black leaves on white background?", choices=("yes", "no"), style="radioButtonHorizontal") bwbg
-#@ String	(label = "Filtering based on LAR standard deviation?", choices=("yes", "no"), style="radioButtonHorizontal") sdFilter
-#@ String	(label = "Cutoff for standard deviation filtering", value = "0.40") cutoff
-#@ String 	(label = "(Troubleshooting) Dark leaf on black background", choices=("yes", "no"), value="no", persist=false, style="radioButtonHorizontal") trbsht
+#@ String   (label = "Filtering based on LAR standard deviation?", choices=("yes", "no"), style="radioButtonHorizontal") sdFilter
+#@ String   (label = "Cutoff for standard deviation filtering", value = "0.40") cutoff
+#@ String   (label = "(Troubleshooting) Dark leaf on black background", choices=("yes", "no"), value="no", persist=false, style="radioButtonHorizontal") trbsht
 
 //# @ String 	(label = "Detailed measurements file?", choices=("yes", "no"), style="radioButtonHorizontal") rsmall
 
@@ -112,20 +112,18 @@ function processMASK(input, output, file) {
 	}
 	//processIMG();
 	if (outchoice != "Masks only"){
-		run("Watershed Irregular Features", "erosion=1 convexity_threshold=0 separator_size=0-100");
-		//run("Watershed Irregular Features", "erosion=1 convexity_threshold=0 separator_size=0-250");
+		run("Watershed Irregular Features", "erosion=1 convexity_threshold=0 separator_size=0-100");    //250 for less stringent 
 	}
 
 // particle analysis and ROI splitting
 // increasing min particle size will remove the labels being picked up, but misses out on leaves
-// increasing min circulartiy will remove the labels, but misses out on smaller/ longer leaves
+// increasing min circularitiy will remove the labels, but misses out on smaller/ longer leaves
+
 	if (smleaf == "yes"){
 		run("Analyze Particles...", "size=1000-Infinity circularity=0.15-1.00 show=Outlines display exclude clear summarize add");
 	} else if (smleaf == "no"){
 		run("Analyze Particles...", "size=5000-Infinity circularity=0.15-1.00 show=Outlines display exclude clear summarize add");
 	}
-	//run("Analyze Particles...", "size=5000-Infinity circularity=0.15-1.00 show=Outlines display exclude clear summarize add");
-	//run("Analyze Particles...", "size=10000-Infinity circularity=0.40-1.00 show=Outlines display exclude clear summarize add");
 	
 	selectWindow(title);
 
@@ -134,7 +132,7 @@ function processMASK(input, output, file) {
 		}
 
 	if (redblue == "no"){
-// if no colored lines, then images are saved BEFORE 'Morphology' function applies
+	// if no colored lines, then images are saved BEFORE 'Morphology' function applies
 	    count = roiManager("count");
 	
 	    for (u = 0; u < count; ++u) {
@@ -143,7 +141,7 @@ function processMASK(input, output, file) {
 		run("Crop");
 
 		idx = u + 1;
-// does not have outlier labeling in the filename
+		// does not have outlier labeling in the filename
 		if (suffixout == ".jpg"){
 			saveAs("jpeg", output + File.separator + basename + "_" + IJ.pad(idx, 3) + ".jpg");
 		} else if (suffixout == ".png"){
@@ -156,21 +154,16 @@ function processMASK(input, output, file) {
 	    }
 	}
 	
-	//saveAs("PNG", output + File.separator + basename + "_full" + ".png");
     close();
         
-	//selectWindow("particles");
-        //close();
 	
-//#--------------- closing time ---------------#
+//#--------------- reset workspace ---------------#
 
 	if (suffixout == ".jpg"){
 			saveAs("jpeg", output + File.separator + file);
 		} else if (suffixout == ".png"){
 			saveAs("png", output + File.separator + file);
 	}
-	//saveAs("PNG", output + File.separator + file);
-	//saveAs("Results", output + File.separator + basename + ".csv");
 	run("Clear Results");
 
     print("Saving to: " + output);
@@ -179,7 +172,6 @@ function processMASK(input, output, file) {
 }
 
 //#--------------- Second Run: Measurements for LAR ---------------#
-// feel free to comment out 'processFB' function at beginning of file if you don't need LAR
 
 function processLAR(input, output, file) {
 
@@ -209,28 +201,19 @@ function processLAR(input, output, file) {
 		run("Analyze Particles...", "size=5000-Infinity circularity=0.15-1.00 show=Nothing exclude clear add");
 	}
 		
-		//run("Analyze Particles...", "size=10000-Infinity circularity=0.40-1.00 show=Outlines display exclude clear summarize add");
-
 	//selectWindow(title);
 
-	//if (leafchoice == "Multiple"){
-	    count=roiManager("count");
-	    array=newArray(count);
+	count=roiManager("count");
+	array=newArray(count);
 	
-	    for(u=0; u<count; ++u) {
-			array[u] = u;
-	    }
+	for(u=0; u<count; ++u) {
+	array[u] = u;
+	}
 
-	    roiManager("Select", array); 
-	    roiManager("Combine");
-	    run("Clear Outside");
+	roiManager("Select", array); 
+	roiManager("Combine");
+	run("Clear Outside");
 	    
-	//} else if (leafchoice == "Single"){
-		//roiManager("Select", 0);
-		//run("Clear Outside");
-		
-	//}
-
 	run("Duplicate...", "title=full");
 	
 	if (suffixout == ".jpg"){
@@ -252,9 +235,8 @@ function processLAR(input, output, file) {
 		run("Particles8 ", "white morphology show=Particles filter minimum=5000 maximum=9999999 display redirect=None");
 	}
 	    
-	//run("Particles8 ", "white label morphology show=Particles filter minimum=5000 maximum=9999999 display redirect=None");
 
-// table building
+	// table building
 	numberOfRows = nResults;
 	    for (row = 0; row < numberOfRows; row++) {
 
@@ -270,51 +252,45 @@ function processLAR(input, output, file) {
 		By2 = getResult("BrdthY2", row);
 
 		rd1 = ((Bx1-Fx1)*(Fx2-Fx1)+(By1-Fy1)*(Fy2-Fy1))/(Fer*Fer);
-      	Px1 = Fx1+rd1*(Fx2-Fx1);
-      	Py1 = Fy1+rd1*(Fy2-Fy1);
-      	Ln1 = sqrt((Bx1-Px1)*(Bx1-Px1)+(By1-Py1)*(By1-Py1));
+		Px1 = Fx1+rd1*(Fx2-Fx1);
+          	Py1 = Fy1+rd1*(Fy2-Fy1);
+	  	Ln1 = sqrt((Bx1-Px1)*(Bx1-Px1)+(By1-Py1)*(By1-Py1));
       	
-      	rd2 = ((Bx2-Fx1)*(Fx2-Fx1)+(By2-Fy1)*(Fy2-Fy1))/(Fer*Fer);
-      	Px2 = Fx1+rd2*(Fx2-Fx1);
-      	Py2 = Fy1+rd2*(Fy2-Fy1);
-      	Ln2 = sqrt((Bx2-Px2)*(Bx2-Px2)+(By2-Py2)*(By2-Py2));
-      	PLn = Ln1+Ln2;
+		rd2 = ((Bx2-Fx1)*(Fx2-Fx1)+(By2-Fy1)*(Fy2-Fy1))/(Fer*Fer);
+          	Px2 = Fx1+rd2*(Fx2-Fx1);
+	  	Py2 = Fy1+rd2*(Fy2-Fy1);
+		Ln2 = sqrt((Bx2-Px2)*(Bx2-Px2)+(By2-Py2)*(By2-Py2));
+		PLn = Ln1+Ln2;
 
-      	Ln3 = sqrt((Bx1-Fx1)*(Bx1-Fx1)+(By1-Fy1)*(By1-Fy1));
+		Ln3 = sqrt((Bx1-Fx1)*(Bx1-Fx1)+(By1-Fy1)*(By1-Fy1));
       	
 		setResult("PrLen1", row, Ln1);
-      	setResult("PrLen2", row, Ln2);
-      	setResult("PBrdth", row, PLn);
+		setResult("PrLen2", row, Ln2);
+		setResult("PBrdth", row, PLn);
 		setResult("FBrdth", row, Ln3);
-      	updateResults();
+		updateResults();
 	
    
-// red and blue lines
-	if (redblue == "yes"){
+		// red and blue lines
+		if (redblue == "yes"){
 	    
-		//Feret's
-		makeLine(Fx1, Fy1, Fx2, Fy2);
-		run("Colors...", "foreground=white background=black selection=red");
-		run("Add Selection...");
-		//Roi.setStrokeColor("red"); //adding lines to ROI puts them in queue for cropping & causes error
-		//roiManager("add & draw");
+		    //Feret's
+		    makeLine(Fx1, Fy1, Fx2, Fy2);
+		    run("Colors...", "foreground=white background=black selection=red");
+		    run("Add Selection...");
 
 		//Breadth - perpendicular to Feret's
       	
-		makeLine(Bx1, By1, Px1, Py1);
-		run("Colors...", "foreground=white background=black selection=blue");
-		run("Add Selection...");
+		    makeLine(Bx1, By1, Px1, Py1);
+		    run("Colors...", "foreground=white background=black selection=blue");
+		    run("Add Selection...");
 
-		makeLine(Bx2, By2, Px2, Py2);
-		run("Colors...", "foreground=white background=black selection=green");
-		run("Add Selection...");
+		    makeLine(Bx2, By2, Px2, Py2);
+		    run("Colors...", "foreground=white background=black selection=green");
+		    run("Add Selection...");
+		}
 	    }
-	}
 
-    //close();
-        
-	//selectWindow("particles");
-        //close();
 		
      for (i = 0; i < nResults; i++) {
      	idx = i + 1;
@@ -322,14 +298,11 @@ function processLAR(input, output, file) {
      }
 
 	if (bwbg == "yes") {
-			run("Invert LUT");
-		}
+	    run("Invert LUT");
+	    }
 
 	
 
-	//if (rsmall == "yes") {
-	//	saveAs("Results", output + File.separator + basename + "_detailed" + ".csv");
-	//}
 
 // Small table
 // sauce: https://gist.github.com/lacan/6b40bba1f878f332b7dbb7468be2fbc8
@@ -377,11 +350,11 @@ function processLAR(input, output, file) {
 
 	// Make the new table
 	for (i=0; i<nR;i++) {
-		setResult("Label", i, Lab[i]);
-		setResult("Area", i, Are[i]);
+	setResult("Label", i, Lab[i]);
+	setResult("Area", i, Are[i]);
       	setResult("Feret", i, Fer[i]);
       	setResult("FeretX1", i, Fx1[i]);
-		setResult("FeretY1", i, Fy1[i]);
+	setResult("FeretY1", i, Fy1[i]);
       	setResult("FeretX2", i, Fx2[i]);
       	setResult("FeretY2", i, Fy2[i]);
       	setResult("Breadth", i, Brd[i]);
@@ -390,13 +363,13 @@ function processLAR(input, output, file) {
       	setResult("BrdthX2", i, Bx2[i]);
       	setResult("BrdthY2", i, By2[i]);
       	setResult("AspRatio", i, Asp[i]);
-		setResult("PrLen1", i, Ln1[i]);
+	setResult("PrLen1", i, Ln1[i]);
       	setResult("PrLen2", i, Ln2[i]);
-		setResult("FBrdth", i, Ln3[i]);
+	setResult("FBrdth", i, Ln3[i]);
 	}
 	updateResults();
 	
-//#--------------- closing time ---------------#
+//#--------------- reset workspace ---------------#
 	
 	if (sdFilter == "yes"){
 		// currently removes outliers from output table
@@ -429,41 +402,7 @@ function processLAR(input, output, file) {
 	    }
 	}
 
-	//saveAs("PNG", output + File.separator + file);    //redundant full image (L204-206)
-
-// saves measurements AFTER stdDev filter is applied; outliers will be missing from table
-	saveAs("Results", output + File.separator + basename + "_measurements" + ".csv");
-
-
-/*
- * 	
- * 	for (row = 0; row < numberOfRows; row++) {
- * 		zz = getResult("AspRatio", row);
- * 		for
- * 	}
- * 	
- * 	
- * 	
-label = getString("Delete rows containing:", "");
-all = getBoolean("Delete all rows?\n(Choose No to delete only 1st occurrence)");
-
-deleteChosenRows(label, all);
-
-function deleteChosenRows(string, recursive) {
- for (i=0; i<nResults; i++) {
-     l = getResultLabel(i);
-     if (indexOf(l, string)!=-1) {
-         IJ.deleteRows(i, i);
-         if (recursive)
-             deleteChosenRows(string, true);
-         else
-             return;
-     }
- }
-}
- * 	
- */
-	
+	saveAs("Results", output + File.separator + basename + "_measurements" + ".csv");	
 	run("Clear Results");
 
     print("Saving to: " + output);
@@ -471,6 +410,9 @@ function deleteChosenRows(string, recursive) {
 	cleanUp();
 
 }
+
+
+//#--------------- Functions ---------------#
 
 //#--------------- Image processing & masking---------------#
 function processIMG() {
@@ -569,8 +511,6 @@ function cutFilter() {
    	for (j=0; j<ratsF.length; j++) {
    		if(ratsF[j] > upperBound) {
    			print("max outlier ID: "+labsF[j]);
-   			// if outlier ID, then setResult("Label", i, basename + "outlier" + IJ.pad(idx, 3));
-   			// can't do that here because setResult is with tables, not the array that we're working with
    			labsOut[j] = labsF[j];
    			ratsOut[j] = ratsF[j];
    		} else {
@@ -699,14 +639,3 @@ function cleanUp() {
     }
 }
 
-/*
- * sauce:
- * https://forum.image.sc/t/results-table-to-macro/28190/12
- * https://www.youtube.com/watch?reload=9&v=AX4qt2NluAo
- * https://forum.image.sc/t/saving-each-roi-as-individual-images/3227
- * https://forum.image.sc/t/how-to-clear-outside-whith-multiple-rois-on-a-stack/27576/7
- * https://forum.image.sc/t/macro-clear-outside-with-multiple-drawn-shapes/4473/3
- * https://imagej.net/BioVoxxel_Toolbox#Watershed_Irregular_Features
- * http://imagej.1557.x6.nabble.com/Within-my-macro-how-do-I-test-if-a-plugin-is-installed-before-calling-it-td3691533.html
- *
- */
