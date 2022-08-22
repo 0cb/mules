@@ -138,9 +138,3 @@ function cleanUp() {
 }
 
 
-/*
- * Sauce: 
- * http://imagej.1557.x6.nabble.com/split-image-td5001409.html
- * http://imagej.1557.x6.nabble.com/How-to-save-all-opened-images-td3686986.html
- *
- */
