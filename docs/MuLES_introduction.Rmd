@@ -34,6 +34,13 @@ A summary of the capabilities of ```MuLES``` is as follows:
 * Orientation-agnostic processing that can identify individual leaves in close proximity.
 * Additional options for controlling how the results are output, allowing for users to incorporate the output from ```MuLES``` into other image analysis softwares (eg. Momocs).
 
+&nbsp;
+
+Video walkthroughs demonstrating the ```MuLES``` and ```imgSplit``` workflows can be found at:
+
+* https://www.youtube.com/watch?v=vtj93rbDO28 (MuLES) 
+* https://www.youtube.com/watch?v=9HVsNvAWPjE (imgSplit)
+
 # ImageJ/ Fiji installation
 To use ```MuLES```, it is recommended that users install Fiji (Schindelin et al., 2012), a pre-packaged distribution of the image analysis software ImageJ. This distribution comes pre-packaged with multiple plugins for use in scientific image analysis.
 
@@ -44,11 +51,18 @@ Additionally, ```MuLES``` requires two dependencies that can be installed throug
 * Morphology (Landini, 2008)
 * BioVoxxel (Brocher, 2022)
 
-![](demo_imgs/plugins_01.png){width=33%} ![](demo_imgs/plugins_02.png){width=33%} ![](demo_imgs/plugins_03.png){width=33%}
+&nbsp;
 
+```{r plugins, fig.align="center", out.height="70%", out.width="70%", echo=FALSE}
+knitr::include_graphics("demo_imgs/plugins_01.png")
+knitr::include_graphics("demo_imgs/plugins_02.png")
+knitr::include_graphics("demo_imgs/plugins_03.png")
+```
+
+&nbsp;
 
 ## Installing MuLES
-```MuLES``` can be downloaded via the [Github repository](https://github.com/0cb/mules) (https://github.com/0cb/mules). After downloading MuLES, users are not required to move the Mules.ijm file to a specific location, as long as it is easily accessible.
+```MuLES``` can be downloaded via the [Github repository](https://github.com/0cb/mules) (https://github.com/0cb/mules). After downloading ```MuLES```, users are not required to move the Mules.ijm file to a specific location, as long as it is easily accessible.
 
 ## Setting up the working directory
 The ```MuLES``` workflow requires user-specification for the initial "input" and "output" directories.
@@ -69,7 +83,7 @@ knitr::include_graphics("demo_imgs/sample_no1.jpg")
 
 &nbsp;
 
-```MuLES``` can also process images containing several accession or sample sets in a single image. In this case, the included ```imgSplits``` macro should be used. This function can be used to quickly split an original image into perfect squares (ie. 2x2, 3x3, etc.). An example is included below.
+```MuLES``` can also process images containing several accession or sample sets in a single image. In this case, the included ```imgSplits``` macro should be used. This function can be used to quickly split an original image into perfect squares (ie. 2 x 2, 3 x 3, etc.). An example is included below that shows a single image containing multiple leaf accessions in a 3 x 3 grid is split into 9 individual images after using ```imgSplit```.
 
 ```{r imgSplit, fig.align="center", out.height="75%", out.width="75%", echo=FALSE}
 knitr::include_graphics("demo_imgs/imgSplit.jpg")
@@ -84,7 +98,9 @@ To run ```MuLES```, navigate the Fiji interface to the macro interface.
 
 ```> Plugins > Macros > Edit...```
 
-![](demo_imgs/mules_01.png){width=50%} 
+```{r mules01, fig.align="center", out.height="75%", out.width="75%", echo=FALSE}
+knitr::include_graphics("demo_imgs/mules_01.png")
+```
 
 &nbsp;
 
@@ -92,11 +108,16 @@ Select and open the MuLES.ijm file. Once the macro is open, clicking "Run" will 
 
 &nbsp;
 
-![](demo_imgs/mules_02.png){width=50%}
+```{r mules02, fig.align="center", out.height="60%", out.width="60%", echo=FALSE}
+knitr::include_graphics("demo_imgs/mules_02.png")
+```
 
+&nbsp;
 
 ## MuLES settings
 The user prompt for ```MuLES``` settings includes:
+
+&nbsp;
 
 &nbsp;
 
@@ -113,31 +134,64 @@ knitr::include_graphics("demo_imgs/mules_03.png")
   + **Masks only** - individual images are saved to the specified output format for later use (eg. visual filtering, other analysis softwares, etc.)
   + **Both** - measurements and images are saved to the specified output directory
 
+&nbsp;
+
 For additional settings:
 
 * **Colored Feret's diameter & breadth lines** - adds visual representations of the length and width as measured by ```MuLES``` (see 'MuLES output' for examples)
 * **Small leaves** - reduces the stringency of ```MuLES``` when identifying leaves 
   + **NOTE** background noise/ objects may be falsely identified as a result
-* **Black leaves on white background** - if "yes" is selected, output images will be black & white rather than white & black
-  + for use in MOMOCS (see 'MuLES output' for examples)
+* **Black leaves on white background** - if "yes" is selected, output images will be black & white rather than white & black (see 'MuLES output' for examples)
 * **Filtering based on LAR standard deviation** - if "yes" is selected, the standard deviation for the aspect ratio of each object will be measured and used as a metric to recommend leaves for removal from further analyses. Output images of leaves will have "-outlier" appended to the file name if they lie outside of the user-specified standard deviation limit.
+  + **NOTE** this filter is only applied to leaf objects PER image; images containing a single leaf should not be used with this filter, as any "-outlier" tags will be potentially misleading
 * **Dark leaves on black background** - this option is intended to assist with troubleshooting when leaves are of a similar color to the image background.
 
+&nbsp;
+
 After the correct settings are chosen, click "OK" to begin processing the chosen input folder. Each image in the folder will flash on the screen as they are processed and do not require any further user input.
+
+&nbsp;
 
 ## MuLES output
 The output of ```MuLES``` will vary based on the chosen settings at initialization.
 
-When selecting **"Masks only"** or **"Both"**, the resulting output images are shown below:
+When selecting **"Masks only"** or **"Both"** for **"Desired outputs?"**, the resulting output images are shown below:
+
+&nbsp;
 
 ![White leaves on black background; No colored lines](demo_imgs/wbbg-no.jpg){width=25%} ![White leaves on black background; With colored lines](demo_imgs/wbbg-yes.jpg){width=25%}
 
 ![Black leaves on white background; No colored lines](demo_imgs/bwbg-no.jpg){width=25%} ![Black leaves on white background; White colored lines](demo_imgs/bwbg-yes.jpg){width=25%}
 
+(Top left): "Black leaves on white background" = No; "Colored Feret's diameter & breadth lines" = No
 
-When selecting **"Measurements only"** or **"Both"**, the resulting measurements are output to a .csv file.
+(Top right): "Black leaves on white background" = No; "Colored Feret's diameter & breadth lines" = Yes
 
-The default data table contains the following measurements:
+(Bottom left): "Black leaves on white background" = Yes; "Colored Feret's diameter & breadth lines" = No
+
+(Bottom right): "Black leaves on white background" = Yes; "Colored Feret's diameter & breadth lines" = Yes
+
+&nbsp;
+
+The following image is an example for when selecting **"Yes"** for **"Dark leaf on black background"** may be more appropriate:
+
+**NOTE** *this troubleshooting feature may lead to partial leaf object recognition as shown below*
+
+&nbsp;
+
+![](demo_imgs/Minicore_403_06.JPG){width=50%} 
+
+![Dark leaf on black background](demo_imgs/Minicore_403_06_001-default.jpg){width=25%} ![Dark leaf on black background](demo_imgs/Minicore_403_06_001-TS.jpg){width=25%}
+
+(Left): "Dark leaf on black background" = Yes
+
+(Right): "Dark leaf on black background" = No
+
+&nbsp;
+
+When selecting **"Measurements only"** or **"Both"** for **"Desired outputs?"**, a data table will be produced in the form of a .csv.
+
+The data table contains the following measurements:
 
 * **Area** - the Area of the region as defined by the boundary pixels
 * **Feret** - length of the largest axis
@@ -156,6 +210,7 @@ The default data table contains the following measurements:
 * **PrLen2** - length of the perpendicular line originating from the second Breadth point
 
 &nbsp;
+
 
 # References
 Brocher, J. 2022. biovoxxel/BioVoxxel-Toolbox: BioVoxxel Toolbox. Zenodo.
