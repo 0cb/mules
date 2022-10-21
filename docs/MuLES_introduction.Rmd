@@ -114,18 +114,9 @@ knitr::include_graphics("demo_imgs/mules_02.png")
 
 &nbsp;
 
+\pagebreak
 ## MuLES settings
 The user prompt for ```MuLES``` settings includes:
-
-&nbsp;
-
-&nbsp;
-
-```{r GUI, fig.align="center", out.height="60%", out.width="60%", echo=FALSE}
-knitr::include_graphics("demo_imgs/mules_03.png")
-```
-
-&nbsp;
 
 * input/ output folders
 * input/ output formats
@@ -136,6 +127,18 @@ knitr::include_graphics("demo_imgs/mules_03.png")
 
 &nbsp;
 
+```{r GUI, fig.align="center", out.height="50%", out.width="50%", echo=FALSE}
+knitr::include_graphics("demo_imgs/mules_03.png")
+```
+
+&nbsp;
+
+For scale calibration settings:
+
+* **Define scale for calibration** - if "yes" is selected, users may either:
+  + designate an image to measure a known feature (eg. a ruler)
+  + input known scale values and their units (eg. 300 dpi = 300 dots per inch)
+
 For additional settings:
 
 * **Colored Feret's diameter & breadth lines** - adds visual representations of the length and width as measured by ```MuLES``` (see 'MuLES output' for examples)
@@ -145,10 +148,23 @@ For additional settings:
 * **Filtering based on LAR standard deviation** - if "yes" is selected, the standard deviation for the aspect ratio of each object will be measured and used as a metric to recommend leaves for removal from further analyses. Output images of leaves will have "-outlier" appended to the file name if they lie outside of the user-specified standard deviation limit.
   + **NOTE** this filter is only applied to leaf objects PER image; images containing a single leaf should not be used with this filter, as any "-outlier" tags will be potentially misleading
 * **Dark leaves on black background** - this option is intended to assist with troubleshooting when leaves are of a similar color to the image background.
+* **Single leaf images** - this option is intended to assist with troubleshooting when only a single leaf is present and will attempt to more accurately define the leaf outline.
 
 &nbsp;
 
-After the correct settings are chosen, click "OK" to begin processing the chosen input folder. Each image in the folder will flash on the screen as they are processed and do not require any further user input.
+After the correct settings are chosen, click "OK" to begin processing the chosen input folder. If you have elected to define a scale from an image feature, you will see the following prompt asking you to select 2 points on the image of which would be a known distance.
+
+```{r scale01, fig.align="center", out.height="60%", out.width="60%", echo=FALSE}
+knitr::include_graphics("demo_imgs/scale_01.png")
+```
+
+After selecting 2 points on the image, click "OK" and the distance between the 2 points will automatically be measured. A prompt will appear asking you to designate and confirm the appropriate scale for use. The program will provide 1) the raw measurement between the two points, 2) a recommended scale value (raw value rounded to the nearest hundred), or 3) a custom value which the user can input.
+
+```{r scale02, fig.align="center", out.height="25%", out.width="25%", echo=FALSE}
+knitr::include_graphics("demo_imgs/scale_03.png")
+```
+
+After confirming, each image in the folder will flash on the screen as they are processed and do not require any further user input.
 
 &nbsp;
 
@@ -206,8 +222,14 @@ The data table contains the following measurements:
 * **BrdthX2** - X coordinate for the second point of the line defining the 'Breadth' measurement
 * **BrdthY2** - Y coordinate for the second point of the line defining the 'Breadth' measurement
 * **AspRatio** - the Aspect Ratio as defined by AspRatio = Feret/ Breadth
-* **PrLen1** - length of the perpendicular line originating from the first Breadth point
-* **PrLen2** - length of the perpendicular line originating from the second Breadth point
+* **BrdLin1** - length of the perpendicular line originating from the first Breadth point
+* **BrdLin2** - length of the perpendicular line originating from the second Breadth point
+* **BrdDiag** - length of the straight line connecting the two Breadth points
+* **Shape** - Shape = Perimeter^2 / Area
+* **Roundness** - Roundness = 4\*Area/ (pi\*Feret^2)
+* **Circularity** - (Roundness Index) Circularity = (4\*pi*Area) / Perimeter; correlated with leaf serration
+* **Solidity** - Solidity = Area / Convex Hull Area; correlated with depth of leaf lobing
+
 
 &nbsp;
 
