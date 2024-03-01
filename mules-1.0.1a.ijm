@@ -445,7 +445,7 @@ function processLAR(input, output, file) {
 	// Make the new table
 	for (i=0; i<nR;i++) {
 	setResult("Label", i, Lab[i]);
-	setResult("Area", i, Are[i]/spval);
+	setResult("Area", i, Are[i]/(spval*spval);
     setResult("Feret", i, Fer[i]/spval);
     setResult("FeretX1", i, Fx1[i]);
 	setResult("FeretY1", i, Fy1[i]);
