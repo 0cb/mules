@@ -1,5 +1,8 @@
 # MuLES: Multiple Leaf Sample Extraction System
 
+![logo](https://github.com/0cb/mules/blob/main/docs/1714543970056.png?raw=true)
+
+
 ```MuLES``` (Multiple Leaf Shape Extraction System) is a workflow based in ImageJ for quickly analyzing traditional morphometric parameters of simple leaf type samples. The workflow utilizes plugins published for use in ImageJ to identify and measure different parameters relevant to object shape, such as object length, width, area, and aspect ratio. These measurements can be taken using raw input images and require no initial pre-processing steps (eg. thresholding).
 
 A summary of the capabilities of ```MuLES``` is as follows:
